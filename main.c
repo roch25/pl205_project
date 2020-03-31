@@ -4,3 +4,7 @@
            Rochelle Martins
  Description: Phone directory using Trie data structure.
 */
+int main()
+{
+  return 0; 
+}
