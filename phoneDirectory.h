@@ -1,4 +1,4 @@
-// header fill
+// header file
 
 struct trie
 {
@@ -13,3 +13,5 @@ struct contact
   int phone_number[3][12];
 };
 typedef struct contact contact;
+
+int add_contact();

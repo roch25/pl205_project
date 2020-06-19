@@ -28,24 +28,18 @@ void menu()
 		scanf("%d", &choice);
 		switch (choice)
 		{
-			case 1:
+			case 1: add_contact();
 					break;
-
 			case 2:
 					break;
-
 			case 3:
 					break;
-
 			case 4:
 					break;
-
 			case 5:
 					break;
-
 			case 6: printf("\nExiting...");
 					break;
-
 			default:
 					printf("INVALID CHOICE\nPLEASE ENTER A VALID CHOICE FROM ABOVE MENU\n");
 					break;
