@@ -5,5 +5,8 @@
 
 int add_contact()
 {
-  
+  contact new_contact;
+
+  //allocate space ...
+
 }
