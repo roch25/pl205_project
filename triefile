@@ -1,8 +1,8 @@
 
 
-./trie : main.o phone_directory.o
-	gcc -o trie main.o phone_directory.o
-main.o: main.c phone_directory.h
+./trie : main.o phoneDirectory.o
+	gcc -o trie main.o phoneDirectory.o
+main.o: main.c phoneDirectory.h
 	gcc -c main.c
-phone_directory.o: phone_directory.c phone_directory.h
-	gcc -c phone_directory.c
+phoneDirectory.o: phoneDirectory.c phoneDirectory.h
+	gcc -c phoneDirectory.c
