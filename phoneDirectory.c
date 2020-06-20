@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 int add_contact()
 {
@@ -31,7 +32,8 @@ int add_contact()
 
 int validate_phone_number(char value[])
 {
-  int length,i;
+  int length, i;
+  char ch;
   length = strlen(value);
   if (length != 10)
   {
@@ -39,17 +41,14 @@ int validate_phone_number(char value[])
   }
   else
   {
-    for(i=0;i<10;i++)
-	  {
-      ch=value[i];
-      if(isdigit(ch))
-      {
-      }
-      else
+    for (i = 0; i < 10; i++)
+    {
+      ch = value[i];
+      if (!isdigit(ch))
       {
         return 0;
       }
-	  }
+    }
     return 1;
   }
 }
