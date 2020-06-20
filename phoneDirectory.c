@@ -17,7 +17,7 @@ int add_contact()
     {
       printf("Enter phone number ");
       scanf("%s", new_contact->phone_number[0]);
-      flag = validate_phone_number(new_contact->phone_number);
+      flag = validate_phone_number(new_contact->phone_number[0]);
       if (flag == 0)
       {
         printf("INVALID PHONE NUMBER. PLEASE ENTER A VALID PHONE NUMBER\n");
