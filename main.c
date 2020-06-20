@@ -23,7 +23,7 @@ void menu()
 	int choice;
 	do
 	{
-		printf("1 - ADD CONTACT\n2 - MODIFY CONTACT\n3 - DELETE CONTACT\n4 - SEARCH CONTACT\n5 - VIEW ALL CONTACTS\n6 - EXIT \n");
+		printf("\n1 - ADD CONTACT\n2 - MODIFY CONTACT\n3 - DELETE CONTACT\n4 - SEARCH CONTACT\n5 - VIEW ALL CONTACTS\n6 - EXIT \n");
 		printf("\nENTER YOUR CHOICE\n");
 		scanf("%d", &choice);
 		switch (choice)
