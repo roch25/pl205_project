@@ -15,3 +15,4 @@ struct contact
 typedef struct contact contact;
 
 int add_contact();
+int validate_phone_number();
