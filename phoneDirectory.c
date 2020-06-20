@@ -16,7 +16,9 @@ int add_contact()
     // phone number
     printf("Enter phone number ");
     scanf("%s", new_contact->phone_number[0]);
+    
     //validation function call
+    validate_phone_number(new_contact->phone_number);
   }
   else
   {
