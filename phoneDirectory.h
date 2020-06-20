@@ -10,7 +10,7 @@ typedef struct trie trie;
 struct contact
 {
   trie name;
-  int phone_number[3][12];
+  char phone_number[3][20];
 };
 typedef struct contact contact;
 
