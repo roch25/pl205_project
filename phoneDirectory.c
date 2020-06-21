@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #define VALID(x) ((x > 64 && x < 91) || (x > 96 && x < 123) || x == 39 || x == 32 || x == 46)
 //65-90(A-Z) 97-122(a-z) 32(space) 39(') 46(.)
 
@@ -59,7 +60,8 @@ int add_contact()
 
 int validate_phone_number(char value[])
 {
-  int length;
+  int length, i;
+  char ch;
   length = strlen(value);
   if (length != 10)
   {
@@ -67,6 +69,14 @@ int validate_phone_number(char value[])
   }
   else
   {
+    for (i = 0; i < 10; i++)
+    {
+      ch = value[i];
+      if (!isdigit(ch))
+      {
+        return 0;
+      }
+    }
     return 1;
   }
 }
