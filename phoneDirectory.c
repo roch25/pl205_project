@@ -29,18 +29,14 @@ int add_contact()
   new_contact = (contact *)malloc(sizeof(contact));
   if (new_contact != NULL)
   {
-    int c;
-    char name[25];
-    printf("\n Enter name ");
-    scanf("%s", name);
-    c = validate_name(name);
-    if (c == 1)
-      printf("\n Length of name too small. Please enter your name again\n ");
-    else if (c == 2)
-      printf("\n Name should not contain any numbers or special chracters other than an apostrophe(') and a full point(.)\n ");
-    else // name is valid
-    {
-      // strcpy(new_contact->name, name);
+     char name[25];
+	printf("\n Enter name ");
+	scanf("%s", name);
+	while (validate_name(name))
+	  {
+	    printf("Invalid name. Lenghth of name should be at least 3 characters. also Name should not contain any numbers or special chracters other than an apostrophe(') and a full point(. Please enter the name again\n");
+	    scanf("%s", name);
+	  }
       /// ++++++
     }
 
