@@ -84,7 +84,8 @@ int validate_phone_number(char value[])
         return 0;
       }
     }
-    return 1;
+    	 check_phone_number(value);
+	 return 1;
   }
 }
 
