@@ -19,3 +19,4 @@ int add_contact();
 int validate_phone_number(char value[]);
 int write_to_file(contact *new);
 int insert(trie *root, char name[]);
+int check_phone_number(value);
