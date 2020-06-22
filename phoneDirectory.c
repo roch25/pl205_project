@@ -132,3 +132,36 @@ int insert(trie *root, char *name)
   }
   curr->isLeaf = 1; // indicates end
 }
+
+int check_phone_number(contact *new)            //function to check if phone number is identical
+{
+	int flag=0;
+	FILE *fp1;
+	fp1 = fopen("phone_number.txt","r");
+	if (fp1 == NULL)
+	{
+	  printf("Cannot open file\n");
+	  exit(0);
+	}
+	else
+	{
+	int val;
+	while(fscanf(fp1,"%s \n",new->phone_number[0])!=EOF)
+	{
+	val=strcmp(new->phone_number[0],new);
+		if(val==0)
+		{	 printf("PHONE NUMBER ALREADY EXIST. PLEASE ENTER A VALID PHONE NUMBER\n");
+			while (flag == 0)
+			{
+			     
+			      scanf("%s", new->phone_number[0]);
+			      flag = validate_phone_number(new->phone_number[0]);
+			      write_to_file(new);
+			}
+		}
+		
+	}
+	}
+
+	fclose(fp1);
+}
