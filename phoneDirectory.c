@@ -32,14 +32,21 @@ int add_contact()
   if (new_contact != NULL)
   {
     char name[25];
-    printf("\n Enter name ");
-    scanf("%s", name);
+    printf("\nEnter name ");
+    fseek(stdin, 0, SEEK_END);
+    scanf(" %[^\n]", name);
     while (validate_name(name))
     {
-      printf("Invalid name. Lenghth of name should be at least 3 characters. also Name should not contain any numbers or special chracters other than an apostrophe(') and a full point(.) Please enter the name again\n");
+      printf("Invalid name. Length of name should be at least 3 characters and should not contain any numbers or special chracters other than an apostrophe(') and a full point(.) Please enter the name again\n");
       scanf("%s", name);
     }
+
     //insert in trie, here
+    new_contact->name = (trie *)malloc(sizeof(trie));
+    (new_contact->name)->isLeaf = 0;
+    for (int i = 0; i < CHAR_SIZE; i++)
+      (new_contact->name)->next[i] = NULL;
+    insert((new_contact->name), name);
 
     printf("Enter phone number ");
     scanf("%s", new_contact->phone_number[0]);
@@ -95,4 +102,33 @@ int write_to_file(contact *new) //function to write phone number to a file
     fprintf(fp, "%s\n", new->phone_number[0]);
   }
   fclose(fp);
+}
+
+int insert(trie *root, char *name)
+{
+  trie *curr = root;
+  int sub;
+  while (*name) //iterate over each character in the name to insert in the trie
+  {
+    // if (*name > 65 && *name < 92)
+    //   sub = 70;
+    // else if (*name > 65 && *name < 92)
+    //   sub = 65;
+    // else if (*name == 32)
+    //   sub = -21; // map to 53
+    // else if (*name == 39)
+    //   sub = -14;
+    // else
+    //   sub = -9;
+    // next line is equivalent to the commented code above
+    sub = (*name > 64 && *name < 92) ? 65 : ((*name > 96 && *name < 123) ? 70 : ((*name == 32) ? -21 : (*name == 39) ? -15 : -9));
+    if (curr->next[*name - sub] == NULL)
+      curr->next[*name - sub] = (trie *)malloc(sizeof(trie)); //set the node
+    (curr->next[*name - sub])->isLeaf = 0;
+    for (int i = 0; i < CHAR_SIZE; i++) //set all next nodes to NULL
+      (curr->next[*name - sub])->next[i] = NULL;
+    curr = curr->next[*name - sub];
+    name++; //move to next char in name
+  }
+  curr->isLeaf = 1; // indicates end
 }
