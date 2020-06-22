@@ -92,7 +92,7 @@ int validate_phone_number(char value[])
 int write_to_file(contact *new) //function to write phone number to a file
 {
   FILE *fp;
-  fp = fopen("phone_number.txt", "a+");
+  fp = fopen("phone_number.dat", "ab+");
   if (fp == NULL)
   {
     printf("Cannot open file\n  ");
@@ -100,7 +100,8 @@ int write_to_file(contact *new) //function to write phone number to a file
   }
   else
   {
-    fprintf(fp, "%s\n", new->phone_number[0]);
+    //fprintf(fp, "%s\n", new->phone_number[0]);
+   fwrite(new->phone_number,strlen(new->phone_number),1,fp);  
   }
   fclose(fp);
 }
