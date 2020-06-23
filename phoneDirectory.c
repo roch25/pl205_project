@@ -31,17 +31,13 @@ int validate_name(char name[25])
   return 0; //if valid
 }
 
-int add_contact()
+int add_contact(contact *new_contact)
 {
   int op, flag = 0;
-  contact *new_contact;
-  new_contact = (contact *)malloc(sizeof(contact));
-
   if (new_contact != NULL)
   {
     char name[25];
     printf("\nEnter name ");
-    fseek(stdin, 0, SEEK_END);
     scanf(" %[^\n]", name);
     int x;
     while (x = validate_name(name))
@@ -61,11 +57,9 @@ int add_contact()
     }
 
     //insert in trie, here
-    new_contact->name = (trie *)malloc(sizeof(trie));
-    (new_contact->name)->isLeaf = 0;
-    for (int i = 0; i < CHAR_SIZE; i++)
-      (new_contact->name)->next[i] = NULL;
+
     insert((new_contact->name), name);
+    char str[30];
 
     printf("Enter phone number ");
     scanf("%s", new_contact->phone_number[0]);
@@ -127,14 +121,18 @@ int insert(trie *root, char *name)
 {
   trie *curr = root;
   int sub;
+  char ch;
   while (*name) //iterate over each character in the name to insert in the trie
   {
-    sub = (*name > 64 && *name < 92) ? 65 : ((*name > 96 && *name < 123) ? 70 : ((*name == 32) ? -21 : (*name == 39) ? -15 : -9));
+    ch = *name;
+    sub = IS_UPPER_CASE(ch) ? 65 : (IS_LOWER_CASE(ch) ? 70 : (IS_SPACE(ch) ? -21 : IS_APOSTROPHE(ch) ? -15 : -9));
     if (curr->next[*name - sub] == NULL)
+    {
       curr->next[*name - sub] = (trie *)malloc(sizeof(trie)); //set the node
-    (curr->next[*name - sub])->isLeaf = 0;
-    for (int i = 0; i < CHAR_SIZE; i++) //set all next nodes to NULL
-      (curr->next[*name - sub])->next[i] = NULL;
+      (curr->next[*name - sub])->isLeaf = 0;
+      for (int i = 0; i < CHAR_SIZE; i++) //set all next nodes to NULL
+        (curr->next[*name - sub])->next[i] = NULL;
+    }
     curr = curr->next[*name - sub];
     name++; //move to next char in name
   }
@@ -156,4 +154,24 @@ int check_phone_number(char *phone_num) //function to check if phone number is i
   }
 
   fclose(fp1);
+}
+
+void display(trie *root, char *str, int level)
+{
+  if (root->isLeaf == 1)
+  {
+    str[level] = '\0';
+    printf("%s\n", str);
+  }
+  int i, sub;
+  char ch;
+  for (i = 0; i < CHAR_SIZE; i++)
+  {
+    if (root->next[i])
+    {
+      sub = (i < 26) ? 65 : (i > 25 && i < 52) ? 70 : (i == 32 ? -21 : i == 39 ? -15 : -9);
+      str[level] = i + sub;
+      display(root->next[i], str, level + 1);
+    }
+  }
 }

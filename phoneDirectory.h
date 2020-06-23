@@ -15,8 +15,9 @@ struct contact
 };
 typedef struct contact contact;
 
-int add_contact();
+int add_contact(contact *);
 int validate_phone_number(char value[]);
-int write_to_file(contact *new);
+void write_to_file(contact *new);
 int insert(trie *root, char name[]);
-int check_phone_number(value);
+int check_if_phone_number_exists();
+void display(trie *, char *, int);
