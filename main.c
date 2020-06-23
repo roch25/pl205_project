@@ -10,23 +10,22 @@
 #include <stdlib.h>
 #include "phoneDirectory.h"
 
-void menu();
+void menu(trie *);
 
 int main()
 {
 	printf("\n PHONE DIRECTORY\n");
-	menu();
+	trie *phone_book;
+	phone_book = (trie *)malloc(sizeof(trie));
+	(phone_book)->isLeaf = 0;
+	for (int i = 0; i < CHAR_SIZE; i++)
+		(phone_book)->next[i] = NULL;
+	menu(phone_book);
 	return 0;
 }
 
-void menu()
+void menu(trie *phone_book)
 {
-	contact *new_contact;
-	new_contact = (contact *)malloc(sizeof(contact));
-	new_contact->name = (trie *)malloc(sizeof(trie));
-	(new_contact->name)->isLeaf = 0;
-	for (int i = 0; i < CHAR_SIZE; i++)
-		(new_contact->name)->next[i] = NULL;
 	char str[20];
 	int choice;
 	do
@@ -37,7 +36,7 @@ void menu()
 		switch (choice)
 		{
 		case 1:
-			add_contact(new_contact);
+			add_contact(phone_book);
 			break;
 		case 2:
 			break;
@@ -49,7 +48,7 @@ void menu()
 			break;
 		case 6:
 
-			display(new_contact->name, str, 0);
+			display(phone_book, str, 0);
 			printf("\nExiting...");
 			break;
 		default:

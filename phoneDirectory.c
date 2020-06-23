@@ -11,30 +11,10 @@
 #define IS_SPACE(x) x == 32
 #define IS_FULLPOINT(x) x == 46
 
-int validate_name(char name[25])
-{
-  int i = 0, c;
-  char ch;
-  if (strlen(name) < 3) // length validation
-    return 1;
-  ch = name[0];
-  if (IS_SPACE(ch) || IS_APOSTROPHE(ch) || IS_FULLPOINT(ch)) // first character validation
-    return 2;
-  while (i < strlen(name)) //if it contains numbers or special charcters other than a full point or apostrophe
-  {
-    ch = name[i];
-    c = IS_UPPER_CASE(ch) || IS_LOWER_CASE(ch) || IS_SPACE(ch) || IS_APOSTROPHE(ch) || IS_FULLPOINT(ch);
-    if (!c)
-      return 3;
-    i++;
-  }
-  return 0; //if valid
-}
-
-int add_contact(contact *new_contact)
+int add_contact(trie *root)
 {
   int op, flag = 0;
-  if (new_contact != NULL)
+  if (root != NULL)
   {
     char name[25];
     printf("\nEnter name ");
@@ -55,54 +35,25 @@ int add_contact(contact *new_contact)
       printf("Please enter the name again\n");
       scanf("%s", name);
     }
-
-    //insert in trie, here
-
-    insert((new_contact->name), name);
-    char str[30];
-
+    char phone_num[12];
     printf("Enter phone number ");
-    scanf("%s", new_contact->phone_number[0]);
-    flag = validate_phone_number(new_contact->phone_number[0]);
+    scanf("%s", phone_num);
+    flag = validate_phone_number(phone_num);
     while (flag == 0)
     {
       printf("INVALID PHONE NUMBER. PLEASE ENTER A VALID PHONE NUMBER\n");
-      scanf("%s", new_contact->phone_number[0]);
-      flag = validate_phone_number(new_contact->phone_number[0]);
+      scanf("%s", phone_num);
+      flag = validate_phone_number(phone_num);
     }
-    write_to_file(new_contact);
-  }
+    insert(root, name, phone_num);
+    }
   else
   {
     return -1; // memory could not be allocated
   }
 }
 
-int validate_phone_number(char value[])
-{
-  int length, i;
-  char ch;
-  length = strlen(value);
-  if (length != 10)
-  {
-    return 0;
-  }
-  else
-  {
-    for (i = 0; i < 10; i++)
-    {
-      ch = value[i];
-      if (!isdigit(ch))
-      {
-        return 0;
-      }
-    }
-    // check_if_phone_number_exists(value);
-    return 1;
-  }
-}
-
-void write_to_file(contact *new) //function to write phone number to a file
+void write_to_file(trie *new) //function to write phone number to a file
 {
   FILE *fp;
   fp = fopen("phone_number.dat", "ab");
@@ -117,7 +68,7 @@ void write_to_file(contact *new) //function to write phone number to a file
   fclose(fp);
 }
 
-int insert(trie *root, char *name)
+int insert(trie *root, char *name, char *phone_num)
 {
   trie *curr = root;
   int sub;
@@ -137,6 +88,7 @@ int insert(trie *root, char *name)
     name++; //move to next char in name
   }
   curr->isLeaf = 1; // indicates end
+  strcpy(curr->phone_number[0], phone_num);
 }
 
 int check_phone_number(char *phone_num) //function to check if phone number is identical
@@ -161,7 +113,7 @@ void display(trie *root, char *str, int level)
   if (root->isLeaf == 1)
   {
     str[level] = '\0';
-    printf("%s\n", str);
+    printf("%s %s\n", str, root->phone_number[0]);
   }
   int i, sub;
   char ch;
@@ -173,5 +125,48 @@ void display(trie *root, char *str, int level)
       str[level] = i + sub;
       display(root->next[i], str, level + 1);
     }
+  }
+}
+
+int validate_name(char name[25])
+{
+  int i = 0, c;
+  char ch;
+  if (strlen(name) < 3) // length validation
+    return 1;
+  ch = name[0];
+  if (IS_SPACE(ch) || IS_APOSTROPHE(ch) || IS_FULLPOINT(ch)) // first character validation
+    return 2;
+  while (i < strlen(name)) //if it contains numbers or special charcters other than a full point or apostrophe
+  {
+    ch = name[i];
+    c = IS_UPPER_CASE(ch) || IS_LOWER_CASE(ch) || IS_SPACE(ch) || IS_APOSTROPHE(ch) || IS_FULLPOINT(ch);
+    if (!c)
+      return 3;
+    i++;
+  }
+  return 0; //if valid
+}
+
+int validate_phone_number(char value[])
+{
+  int length, i;
+  char ch;
+  length = strlen(value);
+  if (length != 10)
+  {
+    return 0;
+  }
+  else
+  {
+    for (i = 0; i < 10; i++)
+    {
+      ch = value[i];
+      if (!isdigit(ch))
+      {
+        return 0;
+      }
+    }
+    return 1;
   }
 }
