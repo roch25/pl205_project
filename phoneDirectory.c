@@ -65,7 +65,7 @@ int insert(trie *root, char *name, char *phone_num)
   while (*name) //iterate over each character in the name to insert in the trie
   {
     ch = *name;
-    sub = IS_UPPER_CASE(ch) ? 65 : (IS_LOWER_CASE(ch) ? 70 : (IS_SPACE(ch) ? -21 : IS_APOSTROPHE(ch) ? -15 : -9));
+    sub = IS_UPPER_CASE(ch) ? 65 : (IS_LOWER_CASE(ch) ? 71 : (IS_SPACE(ch) ? -20 : IS_APOSTROPHE(ch) ? -14 : -8));
     if (curr->next[*name - sub] == NULL)
     {
       curr->next[*name - sub] = (trie *)malloc(sizeof(trie)); //set the node
@@ -110,7 +110,7 @@ void display(trie *root, char *str, int level)
   {
     if (root->next[i])
     {
-      sub = (i < 26) ? 65 : (i > 25 && i < 53) ? 70 : (i == 53 ? -21 : i == 54 ? -15 : -9);
+      sub = (i < 26) ? 65 : (i > 25 && i < 52) ? 71 : (i == 52 ? -20 : i == 53 ? -14 : -8);
       str[level] = i + sub;
       display(root->next[i], str, level + 1);
     }
