@@ -25,12 +25,16 @@ int add_contact(trie *root)
       switch (x)
       {
       case 1:
-        printf("Length of name should be at least 3 characters");
+        printf("Length of name should be at least 3 characters ");
+        break;
       case 2:
-        printf("Name should not begin with a apostrophe or a full point");
+        printf("Name should not begin with a apostrophe or a full point ");
         break;
       case 3:
         printf("Name should not contain any numbers or special chracters other than an apostrophe(') and a full point(.) ");
+        break;
+      case 4:
+        printf("Invalid name ");
       }
       printf("Please enter the name again\n");
       scanf("%s", name);
@@ -51,21 +55,6 @@ int add_contact(trie *root)
   {
     return -1; // memory could not be allocated
   }
-}
-
-void write_to_file(trie *new) //function to write phone number to a file
-{
-  FILE *fp;
-  fp = fopen("phone_number.dat", "ab");
-  if (fp == NULL)
-  {
-    printf("Cannot open file\n  ");
-    return;
-  }
-  int record_added = fwrite(&new, sizeof(new), 1, fp);
-  if (record_added)
-    printf("\n\n Contact details added succesfully!\n");
-  fclose(fp);
 }
 
 int insert(trie *root, char *name, char *phone_num)
@@ -131,7 +120,7 @@ void display(trie *root, char *str, int level)
 int validate_name(char name[25])
 {
   int i = 0, c;
-  char ch;
+  char ch, next;
   if (strlen(name) < 3) // length validation
     return 1;
   ch = name[0];
@@ -143,6 +132,12 @@ int validate_name(char name[25])
     c = IS_UPPER_CASE(ch) || IS_LOWER_CASE(ch) || IS_SPACE(ch) || IS_APOSTROPHE(ch) || IS_FULLPOINT(ch);
     if (!c)
       return 3;
+    if ((i - 1) >= 0)
+    {
+      next = name[i - 1];
+      if ((IS_APOSTROPHE(ch) && IS_APOSTROPHE(next)) || (IS_FULLPOINT(ch) && IS_FULLPOINT(next) || ((IS_SPACE(ch) && IS_SPACE(next)))))
+        return 4;
+    }
     i++;
   }
   return 0; //if valid
@@ -169,4 +164,19 @@ int validate_phone_number(char value[])
     }
     return 1;
   }
+}
+
+void write_to_file(trie *new) //function to write phone number to a file
+{
+  FILE *fp;
+  fp = fopen("phone_number.dat", "ab");
+  if (fp == NULL)
+  {
+    printf("Cannot open file\n  ");
+    return;
+  }
+  int record_added = fwrite(&new, sizeof(new), 1, fp);
+  if (record_added)
+    printf("\n\n Contact details added succesfully!\n");
+  fclose(fp);
 }
