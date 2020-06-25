@@ -61,8 +61,12 @@ void menu(trie *phone_book)
 
 void read_from_file(trie *root)
 {
-	/* Steps: open file and read from it
-			create contact data structure
-			read each entry from the file to that contact ds, save in the trie[use the insert function already written]
-	*/
+	FILE *fp;
+	// do this+ open file
+	contact c;
+
+	while (fread(&c, sizeof(c), 1, fp) == 1)
+	{
+		// 	read each entry from the file to that contact ds, save in the trie[use the insert function already written]
+	}
 }
