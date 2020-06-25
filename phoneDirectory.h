@@ -9,6 +9,13 @@ struct trie
 };
 typedef struct trie trie;
 
+struct contact
+{
+  char name[25];
+  char phone_num[12];
+};
+typedef struct contact contact;
+
 int add_contact(trie *);
 int validate_name(char name[25]);
 int validate_phone_number(char value[]);

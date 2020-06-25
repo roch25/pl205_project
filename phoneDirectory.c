@@ -41,7 +41,7 @@ int add_contact(trie *root)
     }
     char phone_num[12];
     printf("Enter phone number ");
-    scanf("%s", phone_num);
+    scanf(" %[^\n]", phone_num);
     flag = validate_phone_number(phone_num);
     while (flag == 0)
     {
@@ -50,6 +50,7 @@ int add_contact(trie *root)
       flag = validate_phone_number(phone_num);
     }
     insert(root, name, phone_num);
+    //write to file
   }
   else
   {
