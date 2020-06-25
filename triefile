@@ -1,8 +1,10 @@
 
 
-./trie : main.o phoneDirectory.o
-	gcc -o trie main.o phoneDirectory.o
+./trie : main.o phoneDirectory.o validation.o
+	gcc -o trie main.o phoneDirectory.o validation.o
 main.o: main.c phoneDirectory.h
 	gcc -c main.c
 phoneDirectory.o: phoneDirectory.c phoneDirectory.h
 	gcc -c phoneDirectory.c
+validation.o: validation.c validation.h
+	gcc -c validation.c

@@ -64,9 +64,8 @@ void read_from_file(trie *root)
 	FILE *fp;
 	// do this+ open file
 	contact c;
-
-	while (fread(&c, sizeof(c), 1, fp) == 1)
-	{
-		// 	read each entry from the file to that contact ds, save in the trie[use the insert function already written]
-	}
+	// while (fread(&c, sizeof(c), 1, fp) == 1)
+	// {
+	// 	// 	read each entry from the file to that contact ds, save in the trie[use the insert function already written]
+	// }
 }
