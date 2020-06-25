@@ -92,14 +92,14 @@ int insert(trie *root, char *name, char *phone_num)
   return 1;
 }
 
-int check_dupilcate_conatact_details(char *name, char *phone_num) //function to check if phone number is identical
+int check_dupilcate_conatact_details(char *name, char *phone_num)
 {
   int flag = 0;
   FILE *fp1;
   /* Steps: make a function call
       open file and read from it
 			create contact data structure
-			check if any entry matches phone_num, if yes return and write apppropriate message in calling funtion
+			check if any entry matches name and phone_num, if yes return and write apppropriate message in calling funtion
 
 	*/
 
