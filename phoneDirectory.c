@@ -14,43 +14,52 @@
 int add_contact(trie *root)
 {
   int op, flag = 0;
-  if (root != NULL)
+  if (root)
   {
-    char name[25];
-    printf("\nEnter name ");
-    scanf(" %[^\n]", name);
-    int x;
-    while (x = validate_name(name))
+    contact *new_contact = (contact *)malloc(sizeof(contact));
+    if (new_contact)
     {
-      switch (x)
+
+      printf("\nEnter name ");
+      scanf(" %[^\n]", new_contact->name);
+      int x;
+      while (x = validate_name(new_contact->name))
       {
-      case 1:
-        printf("Length of name should be at least 3 characters ");
-        break;
-      case 2:
-        printf("Name should not begin with a apostrophe or a full point ");
-        break;
-      case 3:
-        printf("Name should not contain any numbers or special chracters other than an apostrophe(') and a full point(.) ");
-        break;
-      case 4:
-        printf("Invalid name ");
+        switch (x)
+        {
+        case 1:
+          printf("Length of name should be at least 3 characters ");
+          break;
+        case 2:
+          printf("Name should not begin with a apostrophe or a full point ");
+          break;
+        case 3:
+          printf("Name should not contain any numbers or special chracters other than an apostrophe(') and a full point(.) ");
+          break;
+        case 4:
+          printf("Invalid name ");
+        }
+        printf("Please enter the name again\n");
+        scanf("%s", new_contact->name);
       }
-      printf("Please enter the name again\n");
-      scanf("%s", name);
+      printf("Enter phone number ");
+      scanf(" %[^\n]", new_contact->phone_num);
+      flag = validate_phone_number(new_contact->phone_num);
+      while (flag == 0)
+      {
+        printf("INVALID PHONE NUMBER. PLEASE ENTER A VALID PHONE NUMBER\n");
+        scanf("%s", new_contact->phone_num);
+        flag = validate_phone_number(new_contact->phone_num);
+      }
+      if (insert(root, new_contact->name, new_contact->phone_num))
+      {
+        write_to_file(new_contact);
+      }
+      else
+      {
+        return -2;
+      }
     }
-    char phone_num[12];
-    printf("Enter phone number ");
-    scanf(" %[^\n]", phone_num);
-    flag = validate_phone_number(phone_num);
-    while (flag == 0)
-    {
-      printf("INVALID PHONE NUMBER. PLEASE ENTER A VALID PHONE NUMBER\n");
-      scanf("%s", phone_num);
-      flag = validate_phone_number(phone_num);
-    }
-    insert(root, name, phone_num);
-    //write to file
   }
   else
   {
@@ -70,6 +79,8 @@ int insert(trie *root, char *name, char *phone_num)
     if (curr->next[*name - sub] == NULL)
     {
       curr->next[*name - sub] = (trie *)malloc(sizeof(trie)); //set the node
+      if (!curr->next[*name - sub])
+        return 0;
       (curr->next[*name - sub])->isLeaf = 0;
       for (int i = 0; i < CHAR_SIZE; i++) //set all next nodes to NULL
         (curr->next[*name - sub])->next[i] = NULL;
@@ -79,6 +90,7 @@ int insert(trie *root, char *name, char *phone_num)
   }
   curr->isLeaf = 1; // indicates end
   strcpy(curr->phone_number[0], phone_num);
+  return 1;
 }
 
 int check_phone_number(char *phone_num) //function to check if phone number is identical
@@ -167,7 +179,7 @@ int validate_phone_number(char value[])
   }
 }
 
-void write_to_file(trie *new) //function to write phone number to a file
+void write_to_file(contact *new) //function to write phone number to a file
 {
   FILE *fp;
   fp = fopen("phone_number.dat", "ab");

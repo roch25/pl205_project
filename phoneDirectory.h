@@ -21,3 +21,4 @@ int validate_name(char name[25]);
 int validate_phone_number(char value[]);
 int insert(trie *root, char name[], char phone_num[]);
 void display(trie *, char *, int);
+void write_to_file(contact *new);

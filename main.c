@@ -1,5 +1,5 @@
 /* PL205 Lab Project
-	Contributors: 
+	Contributors:
 		1904, Shruti Dalvi
 		1929, Chetana Marathe
 		1930, Rochelle Martins
@@ -45,10 +45,9 @@ void menu(trie *phone_book)
 		case 4:
 			break;
 		case 5:
+			display(phone_book, str, 0);
 			break;
 		case 6:
-
-			display(phone_book, str, 0);
 			printf("\nExiting...");
 			break;
 		default:
