@@ -11,6 +11,7 @@
 #include "phoneDirectory.h"
 
 void menu(trie *);
+void read_from_file(trie *);
 
 int main()
 {
@@ -20,6 +21,7 @@ int main()
 	(phone_book)->isLeaf = 0;
 	for (int i = 0; i < CHAR_SIZE; i++)
 		(phone_book)->next[i] = NULL;
+	read_from_file(phone_book);
 	menu(phone_book);
 	return 0;
 }
@@ -55,4 +57,12 @@ void menu(trie *phone_book)
 			break;
 		}
 	} while (choice != 6);
+}
+
+void read_from_file(trie *root)
+{
+	/* Steps: open file and read from it
+			create contact data structure
+			read each entry from the file to that contact ds, save in the trie[use the insert function already written]
+	*/
 }
