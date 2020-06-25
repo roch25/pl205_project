@@ -19,7 +19,6 @@ int add_contact(trie *root)
     contact *new_contact = (contact *)malloc(sizeof(contact));
     if (new_contact)
     {
-
       printf("\nEnter name ");
       scanf(" %[^\n]", new_contact->name);
       int x;
@@ -93,19 +92,16 @@ int insert(trie *root, char *name, char *phone_num)
   return 1;
 }
 
-int check_phone_number(char *phone_num) //function to check if phone number is identical
+int check_dupilcate_conatact_details(char *name, char *phone_num) //function to check if phone number is identical
 {
   int flag = 0;
   FILE *fp1;
-  fp1 = fopen("phone_number.txt", "r");
-  if (fp1 == NULL)
-  {
-    printf("Cannot open file\n");
-    exit(0);
-  }
-  else
-  {
-  }
+  /* Steps: make a function call
+      open file and read from it
+			create contact data structure
+			check if any entry matches phone_num, if yes return and write apppropriate message in calling funtion
+
+	*/
 
   fclose(fp1);
 }
