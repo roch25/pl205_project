@@ -22,4 +22,4 @@ int validate_phone_number(char value[]);
 int insert(trie *root, char name[], char phone_num[]);
 void display(trie *, char *, int);
 void write_to_file(contact *new);
-int check_dupilcate_conatact_details(char *name, char *phone_num);
+int check_dupilcate_contact_details(char *name, char *phone_num);

@@ -92,7 +92,7 @@ int insert(trie *root, char *name, char *phone_num)
   return 1;
 }
 
-int check_dupilcate_conatact_details(char *name, char *phone_num)
+int check_dupilcate_contact_details(char *name, char *phone_num)
 {
   int flag = 0;
   FILE *fp1;
