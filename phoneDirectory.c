@@ -11,7 +11,7 @@ int add_contact(trie *root)
 {
   int flag = 0;
   contact new_contact;
-  printf("\nEnter name ");
+  printf("\nEnter name :- ");
   scanf(" %[^\n]", new_contact.name);
   int x;
   while (x = validate_name(new_contact.name))
@@ -30,7 +30,7 @@ int add_contact(trie *root)
     case 4:
       printf(YELLOW "Invalid name " RESET);
     }
-    printf(YELLOW "Please enter the name again\n" RESET);
+    printf(YELLOW "Please enter the name again :-\n" RESET);
     scanf("%s", new_contact.name);
   }
   printf("Enter phone number ");
@@ -38,7 +38,7 @@ int add_contact(trie *root)
   flag = validate_phone_number(new_contact.phone_num);
   while (flag == 0)
   {
-    printf(YELLOW "INVALID PHONE NUMBER. PLEASE ENTER A VALID PHONE NUMBER\n" RESET);
+    printf(YELLOW "INVALID PHONE NUMBER. PLEASE ENTER A VALID PHONE NUMBER :-\n" RESET);
     scanf("%s", new_contact.phone_num);
     flag = validate_phone_number(new_contact.phone_num);
   }
