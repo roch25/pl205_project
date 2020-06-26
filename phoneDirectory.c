@@ -85,11 +85,10 @@ int modify_contact(trie *root)
 
 void display(trie *root, char *str, int level)
 {
-  static int index = 0;
   if (root->isLeaf == 1)
   {
     str[level] = '\0';
-    printf("%d %s %s\n", ++index, str, root->phone_number[0]);
+    printf("\n%-25s %-10s", str, root->phone_number[0]);
   }
   int i, sub;
   char ch;

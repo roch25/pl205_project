@@ -34,7 +34,7 @@ void menu(trie *phone_book)
 	int choice;
 	do
 	{
-		printf("\n1 - ADD CONTACT\n2 - MODIFY CONTACT\n3 - DELETE CONTACT\n4 - SEARCH CONTACT\n5 - VIEW ALL CONTACTS\n6 - EXIT \n");
+		printf("\n\n1 - ADD CONTACT\n2 - MODIFY CONTACT\n3 - DELETE CONTACT\n4 - SEARCH CONTACT\n5 - VIEW ALL CONTACTS\n6 - EXIT \n");
 		printf("\nENTER YOUR CHOICE :\n");
 		scanf("%d", &choice);
 		switch (choice)
@@ -51,6 +51,7 @@ void menu(trie *phone_book)
 		case 4:
 			break;
 		case 5:
+			printf("%-25s %-10s\n", "Name", "Phone Number");
 			display(phone_book, str, 0);
 			break;
 		case 6:
