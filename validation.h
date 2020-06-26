@@ -6,4 +6,5 @@
 
 int validate_name(char name[25]);
 int validate_phone_number(char value[]);
-int check_dupilcate_contact_details(char *name, char *phone_num);
+int check_dupilcate_contact_name(char name[]);
+int check_dupilcate_contact_number(char number[]);
