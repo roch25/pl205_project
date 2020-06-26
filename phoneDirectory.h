@@ -2,9 +2,8 @@
 #define CHAR_SIZE 55
 #define RED "\e[1;31m"    //Error messages
 #define RESET "\x1b[0m"   //reset to white
-#define BLUE "\x1b[37m"   //Normal messages
 #define YELLOW "\x1b[33m" //warning messages
-#define GREEN "\x1b[34m"  // success
+#define GREEN "\x1b[32m"  // success
 
 struct trie
 {
