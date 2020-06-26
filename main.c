@@ -9,6 +9,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "phoneDirectory.h"
+#define RED "\x1b[31m" //Error messages
+#define RESET "\x1b[0m" //reset to white
+#define BLUE "\x1b[37m" //Normal messages
+#define YELLOW "\x1b[33m" //warring messages
 
 void menu(trie *);
 void read_from_file(trie *);
@@ -32,8 +36,8 @@ void menu(trie *phone_book)
 	int choice;
 	do
 	{
-		printf("\n1 - ADD CONTACT\n2 - MODIFY CONTACT\n3 - DELETE CONTACT\n4 - SEARCH CONTACT\n5 - VIEW ALL CONTACTS\n6 - EXIT \n");
-		printf("\nENTER YOUR CHOICE\n");
+		printf(BLUE "\n1 - ADD CONTACT\n2 - MODIFY CONTACT\n3 - DELETE CONTACT\n4 - SEARCH CONTACT\n5 - VIEW ALL CONTACTS\n6 - EXIT \n" RESET);
+		printf(BLUE "\nENTER YOUR CHOICE\n" RESET);
 		scanf("%d", &choice);
 		switch (choice)
 		{
@@ -50,10 +54,10 @@ void menu(trie *phone_book)
 			display(phone_book, str, 0);
 			break;
 		case 6:
-			printf("\nExiting...");
+			printf(YELLOW "\nExiting..." RESET);
 			break;
 		default:
-			printf("INVALID CHOICE\nPLEASE ENTER A VALID CHOICE FROM ABOVE MENU\n");
+			printf(RED "INVALID CHOICE\nPLEASE ENTER A VALID CHOICE FROM ABOVE MENU\n" RESET);
 			break;
 		}
 	} while (choice != 6);
@@ -65,7 +69,7 @@ void read_from_file(trie *root)
 	// do this+ open file
          fp = fopen(file, "rb+"); 
 	if (fp == NULL){	
-		printf("\n File cannot be opened\n");
+		printf(RED "\n File cannot be opened\n" RESET);
 		exit(0);
 	}
 	contact c;
