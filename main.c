@@ -51,6 +51,7 @@ void menu(trie *phone_book)
 		case 4:
 			break;
 		case 5:
+                        read_from_file(root);
 			display(phone_book, str, 0);
 			break;
 		case 6:
