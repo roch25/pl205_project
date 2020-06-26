@@ -15,7 +15,9 @@ void read_from_file(trie *);
 
 int main()
 {
-	printf("\n PHONE DIRECTORY\n");
+	printf(" -------------------------------");
+	printf("\n|\tPHONE DIRECTORY         |\n");
+	printf(" -------------------------------");
 	trie *phone_book;
 	phone_book = (trie *)malloc(sizeof(trie));
 	(phone_book)->isLeaf = 0;
@@ -32,8 +34,8 @@ void menu(trie *phone_book)
 	int choice;
 	do
 	{
-		printf(BLUE "\n1 - ADD CONTACT\n2 - MODIFY CONTACT\n3 - DELETE CONTACT\n4 - SEARCH CONTACT\n5 - VIEW ALL CONTACTS\n6 - EXIT \n" RESET);
-		printf(BLUE "\nENTER YOUR CHOICE\n" RESET);
+		printf("\n1 - ADD CONTACT\n2 - MODIFY CONTACT\n3 - DELETE CONTACT\n4 - SEARCH CONTACT\n5 - VIEW ALL CONTACTS\n6 - EXIT \n");
+		printf("\nENTER YOUR CHOICE :\n");
 		scanf("%d", &choice);
 		switch (choice)
 		{
@@ -53,7 +55,7 @@ void menu(trie *phone_book)
 			printf(YELLOW "\nExiting..." RESET);
 			break;
 		default:
-			printf(RED "INVALID CHOICE\nPLEASE ENTER A VALID CHOICE FROM ABOVE MENU\n" RESET);
+			printf(YELLOW "INVALID CHOICE\nPLEASE ENTER A VALID CHOICE FROM ABOVE MENU\n" RESET);
 			break;
 		}
 	} while (choice != 6);
@@ -65,7 +67,7 @@ void read_from_file(trie *root)
 	fp = fopen("phone_number.dat", "rb+");
 	if (fp == NULL)
 	{
-		printf(RED "\n File cannot be opened\n" RESET);
+		printf(YELLOW "\n File cannot be opened\n" RESET);
 		return;
 	}
 	contact c;
