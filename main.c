@@ -9,16 +9,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "phoneDirectory.h"
-<<<<<<< HEAD
 #define RED "\x1b[31m"		//Error messages
 #define RESET "\x1b[0m"		//reset to white
 #define BLUE "\x1b[37m"		//Normal messages
 #define YELLOW "\x1b[33m" //warring messages
-=======
->>>>>>> b59af00c3df0209875d047b9d23118af0ad80026
 
-		void
-		menu(trie *);
+void menu(trie *);
 void read_from_file(trie *);
 
 int main()
@@ -70,7 +66,6 @@ void menu(trie *phone_book)
 void read_from_file(trie *root)
 {
 	FILE *fp;
-	// do this+ open file
 	fp = fopen("phone_number.dat", "rb+");
 	if (fp == NULL)
 	{
