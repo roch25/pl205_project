@@ -13,7 +13,7 @@ int add_contact(trie *root)
   if (root)
   {
     contact new_contact;
-    printf("\nEnter name ");
+    printf(BLUE "\nEnter name " RESET);
     scanf(" %[^\n]", new_contact.name);
     int x;
     while (x = validate_name(new_contact.name))
@@ -21,26 +21,26 @@ int add_contact(trie *root)
       switch (x)
       {
       case 1:
-        printf("Length of name should be at least 3 characters ");
+        printf(YELLOW "Length of name should be at least 3 characters " RESET);
         break;
       case 2:
-        printf("Name should not begin with a apostrophe or a full point ");
+        printf(YELLOW "Name should not begin with a apostrophe or a full point " RESET);
         break;
       case 3:
-        printf("Name should not contain any numbers or special chracters other than an apostrophe(') and a full point(.) ");
+        printf(YELLOW "Name should not contain any numbers or special chracters other than an apostrophe(') and a full point(.) "RESET);
         break;
       case 4:
-        printf("Invalid name ");
+        printf(RED "Invalid name " RESET);
       }
-      printf("Please enter the name again\n");
+      printf(BLUE "Please enter the name again\n" RESET);
       scanf("%s", new_contact.name);
     }
-    printf("Enter phone number ");
+    printf(BLUE "Enter phone number " RESET);
     scanf(" %[^\n]", new_contact.phone_num);
     flag = validate_phone_number(new_contact.phone_num);
     while (flag == 0)
     {
-      printf("INVALID PHONE NUMBER. PLEASE ENTER A VALID PHONE NUMBER\n");
+      printf(RED "INVALID PHONE NUMBER. PLEASE ENTER A VALID PHONE NUMBER\n" RESET);
       scanf("%s", new_contact.phone_num);
       flag = validate_phone_number(new_contact.phone_num);
     }
@@ -111,11 +111,11 @@ void write_to_file(contact new) //function to write phone number to a file
   fp = fopen("phone_number.dat", "ab");
   if (fp == NULL)
   {
-    printf("Cannot open file\n  ");
+    printf(RED "Cannot open file\n  " RESET);
     return;
   }
   int record_added = fwrite(&new, sizeof(new), 1, fp);
   if (record_added)
-    printf("\n\n Contact details added succesfully!\n");
+    printf(GREEN "\n\n Contact details added succesfully!\n" RESET);
   fclose(fp);
 }
