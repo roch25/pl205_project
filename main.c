@@ -63,11 +63,7 @@ void read_from_file(trie *root)
 {
 	FILE *fp;
 	// do this+ open file
-         fp = fopen(file, "rb+"); 
-	if (fp == NULL){	
-		printf(RED "\n File cannot be opened\n" RESET);
-		exit(0);
-	}
+          
 	contact c;
 	// while (fread(&c, sizeof(c), 1, fp) == 1)
 	// {
