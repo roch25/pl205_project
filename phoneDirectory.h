@@ -25,3 +25,4 @@ int add_contact(trie *);
 int insert(trie *root, char name[], char phone_num[]);
 void display(trie *, char *, int);
 void write_to_file(contact new);
+int modify_contact(trie *);

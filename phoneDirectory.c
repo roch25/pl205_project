@@ -79,12 +79,17 @@ int insert(trie *root, char *name, char *phone_num)
   return 1;
 }
 
+int modify_contact(trie *root)
+{
+}
+
 void display(trie *root, char *str, int level)
 {
+  static int index = 0;
   if (root->isLeaf == 1)
   {
     str[level] = '\0';
-    printf("%s %s\n", str, root->phone_number[0]);
+    printf("%d %s %s\n", ++index, str, root->phone_number[0]);
   }
   int i, sub;
   char ch;

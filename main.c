@@ -41,6 +41,8 @@ void menu(trie *phone_book)
 			add_contact(phone_book);
 			break;
 		case 2:
+			display(phone_book, str, 0);
+			modify_contact(phone_book);
 			break;
 		case 3:
 			break;
@@ -71,6 +73,5 @@ void read_from_file(trie *root)
 	contact c;
 	while (fread(&c, sizeof(c), 1, fp) == 1)
 	{
-		//insert
-	}
+		}
 }
