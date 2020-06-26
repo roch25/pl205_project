@@ -76,5 +76,10 @@ void read_from_file(trie *root)
 	while (fread(&c, sizeof(c), 1, fp) == 1)
 	{
 		insert(root, c.name, c.phone_num);
+<<<<<<< HEAD
 	}
+=======
+	 }
+	fclose(fp);
+>>>>>>> d2db7c780db20d4cda03d7412a9fd28b3d76cff2
 }
