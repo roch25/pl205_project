@@ -9,20 +9,13 @@ int check_dupilcate_contact_details(char *name, char *phone_num)
 {
   int flag = 0;
   FILE *fp1;
-  // open file here
+  //open file stream
   contact c;
-
-  // while (fread(&c, sizeof(c), 1, fp1) == 1)
-  // {
-  //   // 	read each entry from the file to that contact ds, save in the trie[use the insert function already written]
-  // }
-  /* Steps: make a function call
-      open file and read from it
-			create contact data structure
-			check if any entry matches name and phone_num, if yes return and write apppropriate message in calling funtion
-
-	*/
+  while (fread(&c, sizeof(c), 1, fp1) == 1)
+  {
+    }
   fclose(fp1);
+  return 0;
 }
 
 int validate_name(char name[25])

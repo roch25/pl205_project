@@ -9,53 +9,47 @@
 
 int add_contact(trie *root)
 {
-  int op, flag = 0;
-  if (root)
+  int flag = 0;
+  contact new_contact;
+  printf(BLUE "\nEnter name " RESET);
+  scanf(" %[^\n]", new_contact.name);
+  int x;
+  while (x = validate_name(new_contact.name))
   {
-    contact new_contact;
-    printf(BLUE "\nEnter name " RESET);
-    scanf(" %[^\n]", new_contact.name);
-    int x;
-    while (x = validate_name(new_contact.name))
+    switch (x)
     {
-      switch (x)
-      {
-      case 1:
-        printf(YELLOW "Length of name should be at least 3 characters " RESET);
-        break;
-      case 2:
-        printf(YELLOW "Name should not begin with a apostrophe or a full point " RESET);
-        break;
-      case 3:
-        printf(YELLOW "Name should not contain any numbers or special chracters other than an apostrophe(') and a full point(.) "RESET);
-        break;
-      case 4:
-        printf(RED "Invalid name " RESET);
-      }
-      printf(BLUE "Please enter the name again\n" RESET);
-      scanf("%s", new_contact.name);
+    case 1:
+      printf(YELLOW "Length of name should be at least 3 characters " RESET);
+      break;
+    case 2:
+      printf(YELLOW "Name should not begin with a apostrophe or a full point " RESET);
+      break;
+    case 3:
+      printf(YELLOW "Name should not contain any numbers or special chracters other than an apostrophe(') and a full point(.) " RESET);
+      break;
+    case 4:
+      printf(RED "Invalid name " RESET);
     }
-    printf(BLUE "Enter phone number " RESET);
-    scanf(" %[^\n]", new_contact.phone_num);
+    printf(BLUE "Please enter the name again\n" RESET);
+    scanf("%s", new_contact.name);
+  }
+  printf(BLUE "Enter phone number " RESET);
+  scanf(" %[^\n]", new_contact.phone_num);
+  flag = validate_phone_number(new_contact.phone_num);
+  while (flag == 0)
+  {
+    printf(RED "INVALID PHONE NUMBER. PLEASE ENTER A VALID PHONE NUMBER\n" RESET);
+    scanf("%s", new_contact.phone_num);
     flag = validate_phone_number(new_contact.phone_num);
-    while (flag == 0)
-    {
-      printf(RED "INVALID PHONE NUMBER. PLEASE ENTER A VALID PHONE NUMBER\n" RESET);
-      scanf("%s", new_contact.phone_num);
-      flag = validate_phone_number(new_contact.phone_num);
-    }
-    if (insert(root, new_contact.name, new_contact.phone_num))
-    {
-      write_to_file(new_contact);
-    }
-    else
-    {
-      return -2;
-    }
+  }
+
+  if (insert(root, new_contact.name, new_contact.phone_num))
+  {
+    write_to_file(new_contact);
   }
   else
   {
-    return -1; // memory could not be allocated
+    return -2;
   }
 }
 
