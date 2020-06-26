@@ -17,7 +17,8 @@
 =======
 >>>>>>> b59af00c3df0209875d047b9d23118af0ad80026
 
-void menu(trie *);
+		void
+		menu(trie *);
 void read_from_file(trie *);
 
 int main()
@@ -70,16 +71,12 @@ void read_from_file(trie *root)
 {
 	FILE *fp;
 	// do this+ open file
-<<<<<<< HEAD
 	fp = fopen("phone_number.dat", "rb+");
 	if (fp == NULL)
 	{
 		printf(RED "\n File cannot be opened\n" RESET);
 		exit(0);
 	}
-=======
-          
->>>>>>> b59af00c3df0209875d047b9d23118af0ad80026
 	contact c;
 	// while (fread(&c, sizeof(c), 1, fp) == 1)
 	// {
