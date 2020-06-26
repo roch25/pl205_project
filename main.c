@@ -18,19 +18,21 @@ int main()
 	printf(" -------------------------------");
 	printf("\n|\tPHONE DIRECTORY         |\n");
 	printf(" -------------------------------");
+
 	trie *phone_book;
 	phone_book = (trie *)malloc(sizeof(trie));
 	(phone_book)->isLeaf = 0;
 	for (int i = 0; i < CHAR_SIZE; i++)
 		(phone_book)->next[i] = NULL;
 	read_from_file(phone_book);
+
 	menu(phone_book);
 	return 0;
 }
 
 void menu(trie *phone_book)
 {
-	char str[20];
+	char str[20], search_str[12];
 	int choice;
 	do
 	{
@@ -40,15 +42,19 @@ void menu(trie *phone_book)
 		switch (choice)
 		{
 		case 1:
-			add_contact(phone_book);
+			if (add_contact(phone_book) == 0)
+				printf(GREEN "\n\nContact details added succesfully!\n" RESET);
+			else
+				printf(YELLOW "There was a problem adding the contact to the directory" RESET);
 			break;
 		case 2:
-			display(phone_book, str, 0);
 			modify_contact(phone_book);
 			break;
 		case 3:
+			delete_contact(phone_book);
 			break;
-		case 4:
+		case 4: // user input for search, store in search_str
+			search_contact(phone_book, search_str);
 			break;
 		case 5:
 			printf("--------------Contacts-----------------\n");
@@ -57,7 +63,7 @@ void menu(trie *phone_book)
 			display(phone_book, str, 0);
 			break;
 		case 6:
-			printf(YELLOW "\nExiting..." RESET);
+			printf("\nExiting...");
 			break;
 		default:
 			printf(YELLOW "INVALID CHOICE\nPLEASE ENTER A VALID CHOICE FROM ABOVE MENU\n" RESET);
@@ -66,7 +72,7 @@ void menu(trie *phone_book)
 	} while (choice != 6);
 }
 
-void read_from_file(trie *root)
+void read_from_file(trie *root) //stores the existing (older) contacts to the trie
 {
 	FILE *fp;
 	fp = fopen("phone_number.dat", "rb+");
@@ -78,7 +84,7 @@ void read_from_file(trie *root)
 	contact c;
 	while (fread(&c, sizeof(c), 1, fp) == 1)
 	{
-		insert(root, c.name, c.phone_num);
+		insert_to_trie(root, c.name, c.phone_num);
 	}
 	fclose(fp);
 }

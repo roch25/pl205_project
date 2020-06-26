@@ -19,43 +19,44 @@ int add_contact(trie *root)
     switch (x)
     {
     case 1:
-      printf(YELLOW "Length of name should be at least 3 characters " RESET);
+      printf(YELLOW "Length of name should be at least 3 characters. " RESET);
       break;
     case 2:
-      printf(YELLOW "Name should not begin with a apostrophe or a full point " RESET);
+      printf(YELLOW "Name should not begin with a apostrophe or a full point. " RESET);
       break;
     case 3:
-      printf(YELLOW "Name should not contain any numbers or special chracters other than an apostrophe(') and a full point(.) " RESET);
+      printf(YELLOW "Name should not contain any numbers or special chracters other than an apostrophe(') and a full point(.). " RESET);
       break;
     case 4:
-      printf(YELLOW "Invalid name " RESET);
+      printf(YELLOW "Invalid name. " RESET);
+      break;
     case 5:
-      printf(YELLOW "Name already exist \n" RESET);
+      printf(YELLOW "Name already exists. \n" RESET);
     }
-    printf(YELLOW "Please enter the name again :-\n" RESET);
+    printf(YELLOW "Please enter the name again :- " RESET);
     scanf("%s", new_contact.name);
   }
-  printf("Enter phone number ");
+  printf("Enter phone number :- ");
   scanf(" %[^\n]", new_contact.phone_num);
   flag = validate_phone_number(new_contact.phone_num);
   while (flag == 0)
   {
-    printf(YELLOW "INVALID PHONE NUMBER. PLEASE ENTER A VALID PHONE NUMBER :-\n" RESET);
+    printf(YELLOW "INVALID PHONE NUMBER. PLEASE ENTER A VALID PHONE NUMBER :- " RESET);
     scanf("%s", new_contact.phone_num);
     flag = validate_phone_number(new_contact.phone_num);
   }
-
-  if (insert(root, new_contact.name, new_contact.phone_num))
+  if (insert_to_trie(root, new_contact.name, new_contact.phone_num))
   {
-    write_to_file(new_contact);
+    if (write_to_file(new_contact) == 0)
+      return 0; //success
   }
   else
   {
-    return -2;
+    return -1;
   }
 }
 
-int insert(trie *root, char *name, char *phone_num)
+int insert_to_trie(trie *root, char *name, char *phone_num)
 {
   trie *curr = root;
   int sub;
@@ -64,16 +65,16 @@ int insert(trie *root, char *name, char *phone_num)
   {
     ch = *name;
     sub = IS_UPPER_CASE(ch) ? 65 : (IS_LOWER_CASE(ch) ? 71 : (IS_SPACE(ch) ? -20 : IS_APOSTROPHE(ch) ? -14 : -8));
-    if (curr->next[*name - sub] == NULL)
+    if (curr->next[ch - sub] == NULL)
     {
-      curr->next[*name - sub] = (trie *)malloc(sizeof(trie)); //set the node
-      if (!curr->next[*name - sub])
+      curr->next[ch - sub] = (trie *)malloc(sizeof(trie)); //set the node
+      if (!curr->next[ch - sub])
         return 0;
-      (curr->next[*name - sub])->isLeaf = 0;
+      (curr->next[ch - sub])->isLeaf = 0;
       for (int i = 0; i < CHAR_SIZE; i++) //set all next nodes to NULL
-        (curr->next[*name - sub])->next[i] = NULL;
+        (curr->next[ch - sub])->next[i] = NULL;
     }
-    curr = curr->next[*name - sub];
+    curr = curr->next[ch - sub];
     name++; //move to next char in name
   }
   curr->isLeaf = 1; // indicates end
@@ -83,6 +84,19 @@ int insert(trie *root, char *name, char *phone_num)
 
 int modify_contact(trie *root)
 {
+  //todo
+}
+
+int delete_contact(trie *phone_book)
+{
+  //todo
+}
+
+int search_contact(trie *phone_book, char *search_str)
+{
+  //todo
+  // with search string passed, all names starting with search_str should be dispalyed
+  //additionaly feature - case insensitivity
 }
 
 void display(trie *root, char *str, int level)
@@ -105,17 +119,19 @@ void display(trie *root, char *str, int level)
   }
 }
 
-void write_to_file(contact new) //function to write phone number to a file
+int write_to_file(contact new) //function to write phone number to a file
 {
+  int flag = 1;
   FILE *fp;
   fp = fopen("phone_number.dat", "ab");
   if (fp == NULL)
   {
     printf(YELLOW "Cannot open file\n  " RESET);
-    return;
+    return flag;
   }
   int record_added = fwrite(&new, sizeof(new), 1, fp);
   if (record_added)
-    printf(GREEN "\n\n Contact details added succesfully!\n" RESET);
+    flag = 0;
   fclose(fp);
+  return flag;
 }

@@ -21,7 +21,9 @@ struct contact
 typedef struct contact contact;
 
 int add_contact(trie *);
-int insert(trie *root, char name[], char phone_num[]);
+int insert_to_trie(trie *root, char name[], char phone_num[]);
 void display(trie *, char *, int);
-void write_to_file(contact new);
+int write_to_file(contact new);
 int modify_contact(trie *);
+int delete_contact(trie *);
+int search_contact(trie *, char *);
