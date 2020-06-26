@@ -4,6 +4,7 @@
 #define RESET "\x1b[0m" //reset to white
 #define BLUE "\x1b[37m" //Normal messages
 #define YELLOW "\x1b[33m" //warring messages
+#define GREEN "\x1b[34m"
 
 struct trie
 {
