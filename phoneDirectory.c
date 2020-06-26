@@ -11,7 +11,7 @@ int add_contact(trie *root)
 {
   int flag = 0;
   contact new_contact;
-  printf(BLUE "\nEnter name " RESET);
+  printf("\nEnter name ");
   scanf(" %[^\n]", new_contact.name);
   int x;
   while (x = validate_name(new_contact.name))
@@ -28,17 +28,17 @@ int add_contact(trie *root)
       printf(YELLOW "Name should not contain any numbers or special chracters other than an apostrophe(') and a full point(.) " RESET);
       break;
     case 4:
-      printf(RED "Invalid name " RESET);
+      printf(YELLOW "Invalid name " RESET);
     }
-    printf(BLUE "Please enter the name again\n" RESET);
+    printf("Please enter the name again\n");
     scanf("%s", new_contact.name);
   }
-  printf(BLUE "Enter phone number " RESET);
+  printf("Enter phone number ");
   scanf(" %[^\n]", new_contact.phone_num);
   flag = validate_phone_number(new_contact.phone_num);
   while (flag == 0)
   {
-    printf(RED "INVALID PHONE NUMBER. PLEASE ENTER A VALID PHONE NUMBER\n" RESET);
+    printf(YELLOW "INVALID PHONE NUMBER. PLEASE ENTER A VALID PHONE NUMBER\n" RESET);
     scanf("%s", new_contact.phone_num);
     flag = validate_phone_number(new_contact.phone_num);
   }
@@ -110,7 +110,7 @@ void write_to_file(contact new) //function to write phone number to a file
   fp = fopen("phone_number.dat", "ab");
   if (fp == NULL)
   {
-    printf(RED "Cannot open file\n  " RESET);
+    printf(YELLOW "Cannot open file\n  " RESET);
     return;
   }
   int record_added = fwrite(&new, sizeof(new), 1, fp);
