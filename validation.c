@@ -7,7 +7,7 @@
 
 int check_dupilcate_contact_name(char *name)
 {
-  int str=0;
+  int str = 0;
   FILE *fp2;
   fp2 = fopen("phone_number.dat", "rb+");
   if (fp2 == NULL)
@@ -20,23 +20,22 @@ int check_dupilcate_contact_name(char *name)
   while (fread(&c, sizeof(c), 1, fp2) == 1)
   {
 
-
-	str=strcmp(c.name,name);
-	if(str==0)
-	{
-		return 0;
-	}
-
+    str = strcmp(c.name, name);
+    if (str == 0)
+    {
+      return 0;
+    }
   }
   fclose(fp2);
- return 1;
+  return 1;
 }
 
 int check_dupilcate_contact_number(char number[])
 {
-  
+
   FILE *fp1;
-  contact c;int str;
+  contact c;
+  int str;
   // open file here
   fp1 = fopen("phone_number.dat", "rb+");
   if (fp1 == NULL)
@@ -44,20 +43,18 @@ int check_dupilcate_contact_number(char number[])
     printf("Cannot open file\n  ");
     exit(0);
   }
-  
+
   while (fread(&c, sizeof(c), 1, fp1) == 1)
   {
-    str=strcmp(c.phone_num,number); 
-    if(str==0)
+    str = strcmp(c.phone_num, number);
+    if (str == 0)
     {
       return 0;
     }
-
-   }
+  }
   return 1;
   fclose(fp1);
 }
-
 
 int validate_name(char name[25])
 {
@@ -82,11 +79,11 @@ int validate_name(char name[25])
     }
     i++;
   }
-  if(check_dupilcate_contact_name(name)==0);
-  { 
-	return 5;
+  if (check_dupilcate_contact_name(name) == 0)
+  {
+    return 5;
   }
-  
+
   return 0; //if valid
 }
 
@@ -110,9 +107,9 @@ int validate_phone_number(char value[])
       }
     }
   }
-  if(check_dupilcate_contact_number(value)==0)
+  if (check_dupilcate_contact_number(value) == 0)
   {
-	  return 0;
+    return 0;
   }
-    return 1;
+  return 1;
 }
