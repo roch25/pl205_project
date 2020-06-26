@@ -30,7 +30,7 @@ int add_contact(trie *root)
     case 4:
       printf(YELLOW "Invalid name " RESET);
     }
-    printf("Please enter the name again\n");
+    printf(YELLOW "Please enter the name again\n" RESET);
     scanf("%s", new_contact.name);
   }
   printf("Enter phone number ");
