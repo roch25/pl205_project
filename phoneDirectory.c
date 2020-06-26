@@ -29,6 +29,8 @@ int add_contact(trie *root)
       break;
     case 4:
       printf(YELLOW "Invalid name " RESET);
+    case 5:
+      printf(YELLOW "Name already exist \n"RESET);
     }
     printf(YELLOW "Please enter the name again :-\n" RESET);
     scanf("%s", new_contact.name);
