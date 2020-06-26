@@ -1,5 +1,9 @@
 // header file
 #define CHAR_SIZE 55
+#define RED "\x1b[31m" //Error messages
+#define RESET "\x1b[0m" //reset to white
+#define BLUE "\x1b[37m" //Normal messages
+#define YELLOW "\x1b[33m" //warring messages
 
 struct trie
 {
