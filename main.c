@@ -75,5 +75,6 @@ void read_from_file(trie *root)
 	contact c;
 	while (fread(&c, sizeof(c), 1, fp) == 1)
 	{
-		}
+		insert(root, c.name, c.phone_num);
+	}
 }
