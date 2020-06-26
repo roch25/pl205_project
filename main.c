@@ -51,9 +51,7 @@ void menu(trie *phone_book)
 		case 4:
 			break;
 		case 5:
-                         printf("***************Contacts****************");
 			printf("%-25s %-10s\n", "Name", "Phone Number");
-        	        printf("\n***************************************\n");                 
 			display(phone_book, str, 0);
 			break;
 		case 6:
