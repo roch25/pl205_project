@@ -13,7 +13,6 @@ int add_contact(trie *root)
   if (root)
   {
     contact new_contact;
-
     printf("\nEnter name ");
     scanf(" %[^\n]", new_contact.name);
     int x;
