@@ -92,9 +92,9 @@ int modify_contact(trie *root)
 
 trie *delete_contact(trie *phone_book)
 {
-  trie *temp;
+  trie *temp = NULL;
   int option, found = 0;
-  char number[10], name[50];
+  char number[12], name[50];
   do
   {
     printf("\nCHOOSE OPTION FROM MENU\t\n");
@@ -104,7 +104,7 @@ trie *delete_contact(trie *phone_book)
     {
     case 1:
       printf("ENTER THE CONTACT NUMBER YOU WANT TO DELETE\n");
-      scanf("%s", number);
+      scanf(" %[^\n]", number);
       temp = delete_by_number(number, phone_book);
       if (temp != NULL)
         printf(GREEN "\nCONTACT DELETED SUCCESSFULY\n" RESET);
@@ -117,19 +117,18 @@ trie *delete_contact(trie *phone_book)
 
     case 2:
       printf("ENTER THE CONTACT NAME YOU WANT TO DELETE\n");
-      scanf("%s", name);
+      scanf(" %[^\n]", name);
       temp = delete_by_name(name, phone_book);
       if (temp != NULL)
-        printf(GREEN "\nCONTACT DELETED SUCCESSFULY\n" RESET);
+        printf(GREEN "\nCONTACT DELETED SUCCESSFULY %p\n" RESET, temp);
       else
-      {
         printf(YELLOW "CONTACT NOT FOUND" RESET);
-      }
 
       break;
 
     case 3:
-      temp = phone_book;
+      if (temp == NULL)
+        temp = phone_book;
       break;
 
     default:
@@ -255,6 +254,7 @@ trie *delete_by_number(char *number, trie *phone_book)
   if (flag)
   {
     phone_book = (trie *)malloc(sizeof(trie));
+    printf("%p", phone_book);
     (phone_book)->isLeaf = 0;
     for (int i = 0; i < CHAR_SIZE; i++)
       (phone_book)->next[i] = NULL;
@@ -326,6 +326,8 @@ trie *delete_by_name(char *name, trie *phone_book)
   if (flag)
   {
     phone_book = (trie *)malloc(sizeof(trie));
+    printf("%p", phone_book);
+
     (phone_book)->isLeaf = 0;
     for (int i = 0; i < CHAR_SIZE; i++)
       (phone_book)->next[i] = NULL;
@@ -342,6 +344,7 @@ trie *delete_by_name(char *name, trie *phone_book)
 
 void read_from_file(trie *root) //stores the existing (older) contacts to the trie
 {
+  printf("Reading");
   FILE *fp;
   fp = fopen("phone_number.dat", "rb+");
   if (fp == NULL)

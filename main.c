@@ -32,6 +32,7 @@ int main()
 void menu(trie *phone_book)
 {
 	char str[20], search_str[12];
+	trie *tmp;
 	int choice;
 	do
 	{
