@@ -8,7 +8,8 @@
 #include <ctype.h>
 
 int delete_by_number(char *number);
-int delete_by_name(char *number);
+trie *delete_by_name(char *number, trie *);
+
 int add_contact(trie *root)
 {
   int flag = 0;
@@ -89,9 +90,9 @@ int modify_contact(trie *root)
   //todo
 }
 
-int delete_contact(trie *phone_book)
+trie *delete_contact(trie *phone_book)
 {
-  // trie phone_book;
+  trie *temp;
   int option, found = 0;
   char number[10], name[50];
   do
@@ -111,7 +112,7 @@ int delete_contact(trie *phone_book)
     case 2:
       printf("ENTER THE CONTACT NAME YOU WANT TO DELETE\n");
       scanf("%s", name);
-      if (delete_by_name(name) == 0)
+      if (temp = delete_by_name(name, phone_book))
         printf("\nCONTACT DELETED SUCCESSFULY\n");
       break;
 
@@ -125,6 +126,7 @@ int delete_contact(trie *phone_book)
     }
 
   } while (option != 3);
+  return temp;
 }
 
 int search_contact(trie *phone_book, char *search_str)
@@ -240,10 +242,8 @@ int delete_by_number(char *number)
   fclose(fp1);
 }
 
-int delete_by_name(char *name)
+trie *delete_by_name(char *name, trie *phone_book)
 {
-  trie *phone_book;
-  printf("name=%s", name);
   FILE *fp, *fp1;
   fp = fopen("phone_number.dat", "rb+");
   if (fp == NULL)
@@ -262,7 +262,6 @@ int delete_by_name(char *name)
   contact c;
   while (fread(&c, sizeof(c), 1, fp) == 1)
   {
-    printf("%s\t%s\n", c.name, c.phone_num);
     if (strcmp(name, c.name) != 0)
     {
       fwrite(&c, sizeof(c), 1, fp1);
@@ -287,10 +286,33 @@ int delete_by_name(char *name)
 
   while (fread(&c, sizeof(c), 1, fp1) == 1)
   {
-    printf("in while dumy\n");
-    printf("%s\t%s\n", c.name, c.phone_num);
+    // printf("in while dumy\n");
+    // printf("%s\t%s\n", c.name, c.phone_num);
     fwrite(&c, sizeof(c), 1, fp);
   }
+
+  phone_book = (trie *)malloc(sizeof(trie));
+  (phone_book)->isLeaf = 0;
+  for (int i = 0; i < CHAR_SIZE; i++)
+    (phone_book)->next[i] = NULL;
   fclose(fp);
   fclose(fp1);
+  return phone_book;
+}
+
+void read_from_file(trie *root) //stores the existing (older) contacts to the trie
+{
+  FILE *fp;
+  fp = fopen("phone_number.dat", "rb+");
+  if (fp == NULL)
+  {
+    printf(YELLOW "\n File cannot be opened\n" RESET);
+    return;
+  }
+  contact c;
+  while (fread(&c, sizeof(c), 1, fp) == 1)
+  {
+    insert_to_trie(root, c.name, c.phone_num);
+  }
+  fclose(fp);
 }

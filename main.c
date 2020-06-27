@@ -11,7 +11,6 @@
 #include "phoneDirectory.h"
 
 void menu(trie *);
-void read_from_file(trie *);
 
 int main()
 {
@@ -51,7 +50,8 @@ void menu(trie *phone_book)
 			modify_contact(phone_book);
 			break;
 		case 3:
-			delete_contact(phone_book);
+			phone_book = delete_contact(phone_book);
+			read_from_file(phone_book);
 			break;
 		case 4:
 			printf("Enter name of the contact you want to search:- ");
@@ -73,21 +73,4 @@ void menu(trie *phone_book)
 			break;
 		}
 	} while (choice != 6);
-}
-
-void read_from_file(trie *root) //stores the existing (older) contacts to the trie
-{
-	FILE *fp;
-	fp = fopen("phone_number.dat", "rb+");
-	if (fp == NULL)
-	{
-		printf(YELLOW "\n File cannot be opened\n" RESET);
-		return;
-	}
-	contact c;
-	while (fread(&c, sizeof(c), 1, fp) == 1)
-	{
-		insert_to_trie(root, c.name, c.phone_num);
-	}
-	fclose(fp);
 }
