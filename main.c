@@ -56,7 +56,8 @@ void menu(trie *phone_book)
 		case 4:
 			printf("Enter name of the contact you want to search:- ");
 			scanf(" %[^\n]", search_str);
-			search_contact(phone_book, search_str);
+			if (!search_contact(phone_book, search_str))
+				printf(YELLOW "\nNo contact matches the search string. Please check the search string or enter a diffrent search string" RESET);
 			break;
 		case 5:
 			printf("--------------Contacts-----------------\n");
