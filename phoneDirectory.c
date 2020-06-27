@@ -10,7 +10,6 @@
 trie *delete_by_number(char *number, trie *);
 trie *delete_by_name(char *name, trie *);
 
-
 int add_contact(trie *root)
 {
   int flag = 0;
@@ -130,7 +129,7 @@ trie *delete_contact(trie *phone_book)
       break;
 
     case 3:
-      // menu();
+      temp = phone_book;
       break;
 
     default:
@@ -202,7 +201,7 @@ int write_to_file(contact new) //function to write phone number to a file
 
 trie *delete_by_number(char *number, trie *phone_book)
 {
-  
+
   FILE *fp, *fp1;
   int flag = 0;
   fp = fopen("phone_number.dat", "rb+");
@@ -226,7 +225,7 @@ trie *delete_by_number(char *number, trie *phone_book)
     {
       fwrite(&c, sizeof(c), 1, fp1);
     }
-     else
+    else
     {
       flag = 1;
     }
@@ -250,10 +249,10 @@ trie *delete_by_number(char *number, trie *phone_book)
 
   while (fread(&c, sizeof(c), 1, fp1) == 1)
   {
-   
+
     fwrite(&c, sizeof(c), 1, fp);
   }
-if (flag)
+  if (flag)
   {
     phone_book = (trie *)malloc(sizeof(trie));
     (phone_book)->isLeaf = 0;
@@ -268,7 +267,6 @@ if (flag)
   fclose(fp);
   fclose(fp1);
   return phone_book;
-
 }
 
 trie *delete_by_name(char *name, trie *phone_book)
