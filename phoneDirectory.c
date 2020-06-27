@@ -109,8 +109,8 @@ int search_contact(trie *phone_book, char *search_str)
       return 0;
     search_str++; //move to next character
   }
-  display(curr, temp, strlen(temp));
-  return 1; //if current node is leaf & we have reached the end of the string, return 1
+  display(curr, temp, strlen(temp)); // temp holds the value of search string, display function makes a call using the last pointer in the search string
+  return 1;                          //if current node is leaf & we have reached the end of the string, return 1
 }
 
 void display(trie *root, char *str, int level)
