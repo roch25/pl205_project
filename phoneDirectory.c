@@ -7,6 +7,10 @@
 #include <string.h>
 #include <ctype.h>
 
+trie *delete_by_number(char *number, trie *);
+trie *delete_by_name(char *name, trie *);
+
+
 int add_contact(trie *root)
 {
   int flag = 0;
@@ -87,9 +91,55 @@ int modify_contact(trie *root)
   //todo
 }
 
-int delete_contact(trie *phone_book)
+trie *delete_contact(trie *phone_book)
 {
-  //todo
+  trie *temp;
+  int option, found = 0;
+  char number[10], name[50];
+  do
+  {
+    printf("\nCHOOSE OPTION FROM MENU\t\n");
+    printf("\n1 - DELETE BY NUMBER\n2 - DELETE BY NAME\n3 - EXIT\nENTER THE CHOICE\n");
+    scanf("%d", &option);
+    switch (option)
+    {
+    case 1:
+      printf("ENTER THE CONTACT NUMBER YOU WANT TO DELETE\n");
+      scanf("%s", number);
+      temp = delete_by_number(number, phone_book);
+      if (temp != NULL)
+        printf(GREEN "\nCONTACT DELETED SUCCESSFULY\n" RESET);
+      else
+      {
+        printf(YELLOW "CONTACT NOT FOUND" RESET);
+      }
+
+      break;
+
+    case 2:
+      printf("ENTER THE CONTACT NAME YOU WANT TO DELETE\n");
+      scanf("%s", name);
+      temp = delete_by_name(name, phone_book);
+      if (temp != NULL)
+        printf(GREEN "\nCONTACT DELETED SUCCESSFULY\n" RESET);
+      else
+      {
+        printf(YELLOW "CONTACT NOT FOUND" RESET);
+      }
+
+      break;
+
+    case 3:
+      // menu();
+      break;
+
+    default:
+      printf(YELLOW "INVALID CHOICE\nPLEASE ENTER A VALID CHOICE FROM ABOVE MENU\n" RESET);
+      break;
+    }
+
+  } while (option != 3);
+  return temp;
 }
 
 int search_contact(trie *phone_book, char *search_str)
@@ -148,4 +198,163 @@ int write_to_file(contact new) //function to write phone number to a file
     flag = 0;
   fclose(fp);
   return flag;
+}
+
+trie *delete_by_number(char *number, trie *phone_book)
+{
+  
+  FILE *fp, *fp1;
+  int flag = 0;
+  fp = fopen("phone_number.dat", "rb+");
+  if (fp == NULL)
+  {
+    printf(YELLOW "\n File cannot be opened\n" RESET);
+    exit(0);
+  }
+
+  fp1 = fopen("dumy.dat", "wb");
+  if (fp1 == NULL)
+  {
+    printf(YELLOW "\n File cannot be opened\n" RESET);
+    exit(0);
+  }
+
+  contact c;
+  while (fread(&c, sizeof(c), 1, fp) == 1)
+  {
+    if (strcmp(number, c.phone_num) != 0)
+    {
+      fwrite(&c, sizeof(c), 1, fp1);
+    }
+     else
+    {
+      flag = 1;
+    }
+  }
+
+  fclose(fp);
+  fclose(fp1);
+  fp1 = fopen("dumy.dat", "rb");
+  if (fp1 == NULL)
+  {
+    printf(YELLOW "\n File cannot be opened\n" RESET);
+    exit(0);
+  }
+
+  fp = fopen("phone_number.dat", "wb+");
+  if (fp == NULL)
+  {
+    printf(YELLOW "\n File cannot be opened\n" RESET);
+    exit(0);
+  }
+
+  while (fread(&c, sizeof(c), 1, fp1) == 1)
+  {
+   
+    fwrite(&c, sizeof(c), 1, fp);
+  }
+if (flag)
+  {
+    phone_book = (trie *)malloc(sizeof(trie));
+    (phone_book)->isLeaf = 0;
+    for (int i = 0; i < CHAR_SIZE; i++)
+      (phone_book)->next[i] = NULL;
+  }
+  else
+  {
+    phone_book = NULL;
+  }
+
+  fclose(fp);
+  fclose(fp1);
+  return phone_book;
+
+}
+
+trie *delete_by_name(char *name, trie *phone_book)
+{
+  FILE *fp, *fp1;
+  int flag = 0;
+  fp = fopen("phone_number.dat", "rb+");
+  if (fp == NULL)
+  {
+    printf(YELLOW "\n File cannot be opened\n" RESET);
+    exit(0);
+  }
+
+  fp1 = fopen("dumy.dat", "wb");
+  if (fp1 == NULL)
+  {
+    printf(YELLOW "\n File cannot be opened\n" RESET);
+    exit(0);
+  }
+
+  contact c;
+  while (fread(&c, sizeof(c), 1, fp) == 1)
+  {
+    if (strcmp(name, c.name) != 0)
+    {
+      fwrite(&c, sizeof(c), 1, fp1);
+    }
+    else
+    {
+      flag = 1;
+    }
+  }
+
+  fclose(fp);
+  fclose(fp1);
+  fp1 = fopen("dumy.dat", "rb");
+  if (fp1 == NULL)
+  {
+    printf(YELLOW "\n File cannot be opened\n" RESET);
+    exit(0);
+  }
+
+  fp = fopen("phone_number.dat", "wb+");
+  if (fp == NULL)
+  {
+    printf(YELLOW "\n File cannot be opened\n" RESET);
+    exit(0);
+  }
+
+  while (fread(&c, sizeof(c), 1, fp1) == 1)
+  {
+    // printf("in while dumy\n");
+    // printf("%s\t%s\n", c.name, c.phone_num);
+    fwrite(&c, sizeof(c), 1, fp);
+  }
+
+  if (flag)
+  {
+    phone_book = (trie *)malloc(sizeof(trie));
+    (phone_book)->isLeaf = 0;
+    for (int i = 0; i < CHAR_SIZE; i++)
+      (phone_book)->next[i] = NULL;
+  }
+  else
+  {
+    phone_book = NULL;
+  }
+
+  fclose(fp);
+  fclose(fp1);
+  return phone_book;
+}
+
+void read_from_file(trie *root) //stores the existing (older) contacts to the trie
+{
+  FILE *fp;
+  fp = fopen("phone_number.dat", "rb+");
+  if (fp == NULL)
+  {
+    printf(YELLOW "\n File cannot be opened\n" RESET);
+    return;
+  }
+  contact c;
+  while (fread(&c, sizeof(c), 1, fp) == 1)
+  {
+    insert_to_trie(root, c.name, c.phone_num);
+  }
+  fclose(fp);
 }
