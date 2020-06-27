@@ -94,9 +94,25 @@ int delete_contact(trie *phone_book)
 
 int search_contact(trie *phone_book, char *search_str)
 {
-  //todo
-  // with search string passed, all names starting with search_str should be dispalyed
-  //additionaly feature - case insensitivity
+  int sub;
+  char ch;
+  if (phone_book == NULL) //if trie is empty
+    return 0;
+  trie *curr = phone_book;
+  while (*search_str)
+  {
+    ch = *search_str;
+    sub = IS_UPPER_CASE(ch) ? 65 : (IS_LOWER_CASE(ch) ? 71 : (IS_SPACE(ch) ? -20 : IS_APOSTROPHE(ch) ? -14 : -8));
+    curr = curr->next[*search_str - sub]; // go to next node
+
+    if (curr == NULL) //if string is invalid
+    {
+      printf("No contact matches the search string");
+      return 0;
+    }
+    search_str++; //move to next character
+  }
+  return curr->isLeaf; //if current node is leaf & we have reached the end of the string, return 1
 }
 
 void display(trie *root, char *str, int level)

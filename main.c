@@ -53,7 +53,9 @@ void menu(trie *phone_book)
 		case 3:
 			delete_contact(phone_book);
 			break;
-		case 4: // user input for search, store in search_str
+		case 4:
+			printf("Enter name of the contact you want to search:- ");
+			scanf(" %[^\n]", search_str);
 			search_contact(phone_book, search_str);
 			break;
 		case 5:
