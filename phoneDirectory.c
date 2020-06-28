@@ -148,7 +148,7 @@ trie *delete_contact(trie *phone_book)
   do
   {
     printf("\nCHOOSE OPTION FROM MENU\t\n");
-    printf("\n1 - DELETE BY NUMBER\n2 - DELETE BY NAME\n3 - EXIT\nENTER THE CHOICE\n");
+    printf("\n1 - DELETE BY NUMBER\n2 - DELETE BY NAME\n3 - GO BACK\nENTER THE CHOICE\n");
     scanf("%d", &option);
     switch (option)
     {
