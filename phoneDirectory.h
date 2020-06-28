@@ -22,7 +22,7 @@ typedef struct contact contact;
 
 int add_contact(trie *);
 int insert_to_trie(trie *root, char name[], char phone_num[]);
-void display(trie *, char *, int);
+void display(trie *, char *, int, int *);
 int write_to_file(contact new);
 trie *modify_contact(trie *);
 trie *delete_contact(trie *);

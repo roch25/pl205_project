@@ -34,7 +34,7 @@ void menu(trie *phone_book)
 {
 	char str[20], search_str[12];
 	trie *tmp;
-	int choice;
+	int choice, token, search_res;
 	do
 	{
 		printf("\n\n1 - ADD CONTACT\n2 - MODIFY CONTACT\n3 - DELETE CONTACT\n4 - SEARCH CONTACT\n5 - VIEW ALL CONTACTS\n6 - EXIT \n");
@@ -49,22 +49,29 @@ void menu(trie *phone_book)
 				printf(YELLOW "There was a problem adding the contact to the directory" RESET);
 			break;
 		case 2:
+			display_head();
+			display(phone_book, str, 0, &token);
 			phone_book = modify_contact(phone_book);
 			read_from_file(phone_book);
 			break;
 		case 3:
+			display_head();
+			display(phone_book, str, 0, &token);
 			phone_book = delete_contact(phone_book);
 			read_from_file(phone_book);
 			break;
 		case 4:
+			token = 0;
 			printf("Enter name of the contact you want to search:- ");
 			scanf(" %[^\n]", search_str);
-			if (!search_contact(phone_book, search_str))
+			search_res = search_contact(phone_book, search_str);
+			if (search_res == -1)
 				printf(YELLOW "\nNo contact matches the search string. Please check the search string or enter a diffrent search string" RESET);
 			break;
 		case 5:
+			token = 0;
 			display_head();
-			display(phone_book, str, 0);
+			display(phone_book, str, 0, &token);
 			break;
 		case 6:
 			printf("\nExiting...");
