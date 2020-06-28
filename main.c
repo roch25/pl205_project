@@ -11,6 +11,7 @@
 #include "phoneDirectory.h"
 
 void menu(trie *);
+void display_head();
 
 int main()
 {
@@ -48,7 +49,8 @@ void menu(trie *phone_book)
 				printf(YELLOW "There was a problem adding the contact to the directory" RESET);
 			break;
 		case 2:
-			modify_contact(phone_book);
+			phone_book = modify_contact(phone_book);
+			read_from_file(phone_book);
 			break;
 		case 3:
 			phone_book = delete_contact(phone_book);
@@ -61,9 +63,7 @@ void menu(trie *phone_book)
 				printf(YELLOW "\nNo contact matches the search string. Please check the search string or enter a diffrent search string" RESET);
 			break;
 		case 5:
-			printf("--------------Contacts-----------------\n");
-			printf("%-25s %-10s\n", "Name", "Phone Number");
-			printf("---------------------------------------\n");
+			display_head();
 			display(phone_book, str, 0);
 			break;
 		case 6:
@@ -74,4 +74,11 @@ void menu(trie *phone_book)
 			break;
 		}
 	} while (choice != 6);
+}
+
+void display_head()
+{
+	printf("--------------Contacts-----------------\n");
+	printf("%-25s %-10s\n", "Name", "Phone Number");
+	printf("---------------------------------------\n");
 }
