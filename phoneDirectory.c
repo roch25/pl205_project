@@ -101,7 +101,7 @@ trie *modify_contact(trie *phone_book)
       search_res = search_contact(phone_book, name);
       while (search_res > 1)
       {
-        printf("\nENTER THE CONTACT NAME YOU WANT TO DELETE\n");
+        printf("\nENTER THE CONTACT NAME YOU WANT TO MODIFY\n");
         scanf(" %[^\n]", name);
         search_res = search_contact(phone_book, name);
       }
@@ -153,20 +153,11 @@ trie *delete_contact(trie *phone_book)
   do
   {
     printf("\n\nCHOOSE OPTION FROM MENU\t\n");
-    printf("\n1 - DELETE BY NUMBER\n2 - DELETE BY NAME\n3 - GO BACK\nENTER THE CHOICE\n");
+    printf("\n1 - DELETE BY NAME\n2 - DELETE BY NUMBER\n3 - GO BACK\nENTER THE CHOICE\n");
     scanf("%d", &option);
     switch (option)
     {
     case 1:
-      printf("ENTER THE CONTACT NUMBER YOU WANT TO DELETE\n");
-      scanf(" %[^\n]", number);
-      temp = delete_by(number, phone_book, "number");
-      if (temp != NULL)
-        printf(GREEN "\nCONTACT DELETED SUCCESSFULY\n" RESET);
-      else
-        printf(YELLOW "CONTACT NOT FOUND" RESET);
-      break;
-    case 2:
       token = 0;
       printf("ENTER THE CONTACT NAME YOU WANT TO DELETE\n");
       scanf(" %[^\n]", name);
@@ -180,6 +171,15 @@ trie *delete_contact(trie *phone_book)
       temp = delete_by(name, phone_book, "name");
       if (temp != NULL)
         printf(GREEN "\n\nCONTACT DELETED SUCCESSFULY\n" RESET);
+      else
+        printf(YELLOW "CONTACT NOT FOUND" RESET);
+      break;
+    case 2:
+      printf("ENTER THE CONTACT NUMBER YOU WANT TO DELETE\n");
+      scanf(" %[^\n]", number);
+      temp = delete_by(number, phone_book, "number");
+      if (temp != NULL)
+        printf(GREEN "\nCONTACT DELETED SUCCESSFULY\n" RESET);
       else
         printf(YELLOW "CONTACT NOT FOUND" RESET);
       break;
