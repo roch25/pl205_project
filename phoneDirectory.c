@@ -84,9 +84,60 @@ int insert_to_trie(trie *root, char *name, char *phone_num)
   return 1;
 }
 
-int modify_contact(trie *root)
+trie *modify_contact(trie *phone_book)
 {
-  //todo
+  trie *temp = NULL;
+  int option, found = 0;
+  char number[12], name[50];
+  do
+  {
+    printf("\nCHOOSE OPTION FROM MENU\t\n");
+    printf("\n1 - Modify by name\n2 - Modify by phone number \n3 - Go back \nEnter the choice:- \n");
+    scanf("%d", &option);
+    switch (option)
+    {
+    case 1:
+      printf("Enter the contact name you want to modify in phonebook:- \n");
+      scanf(" %[^\n]", name);
+      temp = delete_by(name, phone_book, "name");
+      if (temp != NULL)
+      {
+        printf(GREEN "Name exists!! Kindly re-enter the details to modify the contact:- \n" RESET);
+        if (add_contact(phone_book) == 0)
+          printf(GREEN "\nContact details updated succesfully!\n" RESET);
+        else
+          printf(YELLOW "There was a problem updating the contact to the directory" RESET);
+      }
+      else
+        printf(YELLOW "Sorry! Contact with this name does not exist. Please try again.\n" RESET);
+
+      break;
+
+    case 2:
+      printf("Enter the contact number you want to modify in phonebook:- \n");
+      scanf(" %[^\n]", number);
+      temp = delete_by(number, phone_book, "number");
+      if (temp != NULL)
+      {
+        printf(GREEN "Phone number exists!! Kindly re-enter the details to modify the contact:- \n" RESET);
+        if (add_contact(phone_book) == 0)
+          printf(GREEN "\nContact details updated succesfully!\n" RESET);
+        else
+          printf(YELLOW "There was a problem updating the contact to the directory" RESET);
+      }
+      else
+        printf(YELLOW "Sorry! Contact with this phone number does not exist. Please try again.\n" RESET);
+      break;
+    case 3:
+      if (temp == NULL)
+        temp = phone_book;
+      break;
+    default:
+      printf(YELLOW "INVALID CHOICE\nPLEASE ENTER A VALID CHOICE FROM ABOVE MENU\n" RESET);
+      break;
+    }
+  } while (option != 3);
+  return temp;
 }
 
 trie *delete_contact(trie *phone_book)
