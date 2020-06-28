@@ -53,9 +53,7 @@ int add_contact(trie *root)
       return 0; //success
   }
   else
-  {
-    return -1;
-  }
+    return -1; // probelem inserting in trie
 }
 
 int insert_to_trie(trie *root, char *name, char *phone_num)
@@ -87,22 +85,30 @@ int insert_to_trie(trie *root, char *name, char *phone_num)
 trie *modify_contact(trie *phone_book)
 {
   trie *temp = NULL;
-  int option, found = 0;
-  char number[12], name[50];
+  int option, found = 0, token, search_res;
+  char number[12], name[25];
   do
   {
-    printf("\nCHOOSE OPTION FROM MENU\t\n");
+    printf("\n\nCHOOSE OPTION FROM MENU\t\n");
     printf("\n1 - Modify by name\n2 - Modify by phone number \n3 - Go back \nEnter the choice:- \n");
     scanf("%d", &option);
     switch (option)
     {
     case 1:
+      token = 0;
       printf("Enter the contact name you want to modify in phonebook:- \n");
       scanf(" %[^\n]", name);
+      search_res = search_contact(phone_book, name);
+      while (search_res > 1)
+      {
+        printf("\nENTER THE CONTACT NAME YOU WANT TO DELETE\n");
+        scanf(" %[^\n]", name);
+        search_res = search_contact(phone_book, name);
+      }
       temp = delete_by(name, phone_book, "name");
       if (temp != NULL)
       {
-        printf(GREEN "Name exists!! Kindly re-enter the details to modify the contact:- \n" RESET);
+        printf(GREEN "\nName exists!! Kindly re-enter the details to modify the contact:- \n" RESET);
         if (add_contact(phone_book) == 0)
           printf(GREEN "\nContact details updated succesfully!\n" RESET);
         else
@@ -110,7 +116,6 @@ trie *modify_contact(trie *phone_book)
       }
       else
         printf(YELLOW "Sorry! Contact with this name does not exist. Please try again.\n" RESET);
-
       break;
 
     case 2:
@@ -143,11 +148,11 @@ trie *modify_contact(trie *phone_book)
 trie *delete_contact(trie *phone_book)
 {
   trie *temp = NULL;
-  int option, found = 0;
-  char number[12], name[50];
+  int option, found = 0, token, search_res;
+  char number[12], name[25];
   do
   {
-    printf("\nCHOOSE OPTION FROM MENU\t\n");
+    printf("\n\nCHOOSE OPTION FROM MENU\t\n");
     printf("\n1 - DELETE BY NUMBER\n2 - DELETE BY NAME\n3 - GO BACK\nENTER THE CHOICE\n");
     scanf("%d", &option);
     switch (option)
@@ -159,40 +164,40 @@ trie *delete_contact(trie *phone_book)
       if (temp != NULL)
         printf(GREEN "\nCONTACT DELETED SUCCESSFULY\n" RESET);
       else
-      {
         printf(YELLOW "CONTACT NOT FOUND" RESET);
-      }
-
       break;
-
     case 2:
+      token = 0;
       printf("ENTER THE CONTACT NAME YOU WANT TO DELETE\n");
       scanf(" %[^\n]", name);
+      search_res = search_contact(phone_book, name);
+      while (search_res > 1)
+      {
+        printf("\nENTER THE CONTACT NAME YOU WANT TO DELETE\n");
+        scanf(" %[^\n]", name);
+        search_res = search_contact(phone_book, name);
+      }
       temp = delete_by(name, phone_book, "name");
       if (temp != NULL)
-        printf(GREEN "\nCONTACT DELETED SUCCESSFULY\n" RESET);
+        printf(GREEN "\n\nCONTACT DELETED SUCCESSFULY\n" RESET);
       else
         printf(YELLOW "CONTACT NOT FOUND" RESET);
-
       break;
-
     case 3:
       if (temp == NULL)
         temp = phone_book;
       break;
-
     default:
       printf(YELLOW "INVALID CHOICE\nPLEASE ENTER A VALID CHOICE FROM ABOVE MENU\n" RESET);
       break;
     }
-
   } while (option != 3);
   return temp;
 }
 
 int search_contact(trie *phone_book, char *search_str)
 {
-  int sub;
+  int sub, token = 0;
   char ch, temp[20];
   strcpy(temp, search_str);
   if (phone_book == NULL) //if trie is empty
@@ -204,31 +209,30 @@ int search_contact(trie *phone_book, char *search_str)
     sub = IS_UPPER_CASE(ch) ? 65 : (IS_LOWER_CASE(ch) ? 71 : (IS_SPACE(ch) ? -20 : IS_APOSTROPHE(ch) ? -14 : -8));
     curr = curr->next[*search_str - sub]; // go to next node
     if (curr == NULL)                     //if string is invalid
-      return 0;
+      return -1;
     search_str++; //move to next character
   }
-  display(curr, temp, strlen(temp)); // temp holds the value of search string, display function makes a call using the last pointer in the search string
-  return 1;                          //if current node is leaf & we have reached the end of the string, return 1
+  display(curr, temp, strlen(temp), &token); // temp holds the value of search string, display function makes a call using the last pointer in the search string
+  return token;                              //if current node is leaf & we have reached the end of the string, return 1
 }
 
-void display(trie *root, char *str, int level)
+void display(trie *root, char *str, int level, int *token)
 {
   if (root->isLeaf == 1)
   {
+    (*token)++;
     str[level] = '\0';
     printf("\n%-25s %-10s", str, root->phone_number[0]);
   }
   int i, sub;
   char ch;
   for (i = 0; i < CHAR_SIZE; i++)
-  {
     if (root->next[i])
     {
       sub = (i < 26) ? 65 : (i > 25 && i < 52) ? 71 : (i == 52 ? -20 : i == 53 ? -14 : -8);
       str[level] = i + sub;
-      display(root->next[i], str, level + 1);
+      display(root->next[i], str, level + 1, token);
     }
-  }
 }
 
 int write_to_file(contact new) //function to write phone number to a file
@@ -258,14 +262,12 @@ trie *delete_by(char *name, trie *phone_book, char *value)
     printf(YELLOW "\n File cannot be opened\n" RESET);
     exit(0);
   }
-
   fp1 = fopen("dumy.dat", "wb");
   if (fp1 == NULL)
   {
     printf(YELLOW "\n File cannot be opened\n" RESET);
     exit(0);
   }
-
   contact c;
   while (fread(&c, sizeof(c), 1, fp) == 1)
   {
@@ -284,7 +286,6 @@ trie *delete_by(char *name, trie *phone_book, char *value)
         flag = 1;
     }
   }
-
   fclose(fp);
   fclose(fp1);
   fp1 = fopen("dumy.dat", "rb");
@@ -293,19 +294,16 @@ trie *delete_by(char *name, trie *phone_book, char *value)
     printf(YELLOW "\n File cannot be opened\n" RESET);
     exit(0);
   }
-
   fp = fopen("phone_number.dat", "wb+");
   if (fp == NULL)
   {
     printf(YELLOW "\n File cannot be opened\n" RESET);
     exit(0);
   }
-
   while (fread(&c, sizeof(c), 1, fp1) == 1)
   {
     fwrite(&c, sizeof(c), 1, fp);
   }
-
   if (flag)
   {
     phone_book = (trie *)malloc(sizeof(trie));
@@ -314,10 +312,7 @@ trie *delete_by(char *name, trie *phone_book, char *value)
       (phone_book)->next[i] = NULL;
   }
   else
-  {
     phone_book = NULL;
-  }
-
   fclose(fp);
   fclose(fp1);
   return phone_book;
